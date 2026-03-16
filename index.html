@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The OpenClaw Blueprint — dossdyai</title>
+  <meta name="description" content="Build your AI bot that handles payments, deploys code, and works while you sleep. English + Thai guide by dossdyai.">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --accent: #7c3aed;
+      --accent-light: #a78bfa;
+      --gray: #6b7280;
+      --light: #f9fafb;
+      --border: #e5e7eb;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f1f1f;
+    }
+    .logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; }
+    .logo span { color: var(--accent-light); }
+    .nav-lang { font-size: 0.85rem; color: var(--gray); }
+
+    /* HERO */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(124,58,237,0.2);
+      border: 1px solid rgba(124,58,237,0.4);
+      color: var(--accent-light);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    h1 em { color: var(--accent-light); font-style: normal; }
+    .subtitle {
+      font-size: 1.15rem;
+      color: #9ca3af;
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-langs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+    .lang-tag {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 0 40px rgba(124,58,237,0.3);
+    }
+    .cta-btn:hover { transform: translateY(-2px); background: #6d28d9; }
+    .price-note { margin-top: 14px; color: var(--gray); font-size: 0.9rem; }
+    .price-note strong { color: white; }
+
+    /* SECTION */
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    section + section { border-top: 1px solid #1a1a1a; }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+    }
+
+    /* PROBLEM */
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    @media (max-width: 580px) { .problem-grid { grid-template-columns: 1fr; } }
+    .problem-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .problem-card .icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .problem-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .problem-card p { font-size: 0.875rem; color: #9ca3af; }
+
+    /* WHO IT'S FOR */
+    .who-list { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .who-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .who-list .check {
+      width: 24px; height: 24px;
+      background: rgba(124,58,237,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .who-list strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
+    .who-list span { font-size: 0.85rem; color: #9ca3af; }
+
+    /* WHAT'S INSIDE */
+    .contents-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 28px;
+      font-size: 0.9rem;
+    }
+    .contents-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: #111;
+      color: var(--accent-light);
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #222;
+    }
+    .contents-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #1a1a1a;
+      vertical-align: top;
+    }
+    .contents-table tr:last-child td { border-bottom: none; }
+    .contents-table tr:hover td { background: rgba(124,58,237,0.04); }
+    .chapter-num {
+      color: var(--accent-light);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .exclusive-tag {
+      display: inline-block;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: var(--accent-light);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* BENEFIT */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+    @media (max-width: 640px) { .benefit-grid { grid-template-columns: 1fr; } }
+    .benefit-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 24px 20px;
+    }
+    .benefit-card .b-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .benefit-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+    .benefit-card p { font-size: 0.82rem; color: #9ca3af; }
+
+    /* CTA BOTTOM */
+    .cta-section {
+      text-align: center;
+      padding: 80px 24px;
+      background: radial-gradient(ellipse at center, rgba(124,58,237,0.12) 0%, transparent 70%);
+    }
+    .cta-section h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 16px; }
+    .cta-section p { color: #9ca3af; margin-bottom: 36px; font-size: 1rem; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #4b5563;
+      font-size: 0.8rem;
+      border-top: 1px solid #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">dossdyai<span>.</span></div>
+  <div class="nav-lang">🇬🇧 EN · 🇹🇭 TH</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">🤖 New Release 2026</div>
+  <h1>The <em>OpenClaw</em><br>Blueprint</h1>
+  <p class="subtitle">
+    Build your own AI bot that handles payments, deploys code,
+    monitors the internet — and earns money while you sleep.
+  </p>
+  <div class="hero-langs">
+    <div class="lang-tag">🇬🇧 English</div>
+    <div class="lang-tag">🇹🇭 ภาษาไทย</div>
+  </div>
+  <a href="https://buy.stripe.com/test_00w7sE5o07r23FPbCC4gg00" class="cta-btn">
+    Get the Blueprint — $39
+  </a>
+  <p class="price-note">One-time payment · <strong>Instant download</strong> · Both languages included</p>
+</div>
+
+<!-- PROBLEM / HOW IT HELPS SOLO ENTREPRENEURS -->
+<section>
+  <div class="section-label">The Problem</div>
+  <h2>Solo entrepreneurs wear every hat.<br>There's never enough time.</h2>
+  <p style="color:#9ca3af; font-size:0.95rem; margin-bottom: 0;">
+    You're handling products, marketing, support, and tech — all alone.
+    Most AI tools just answer questions. This guide teaches you to build a system
+    that actually <strong style="color:white">does the work for you.</strong>
+  </p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="icon">💸</div>
+      <h3>Missing sales while you sleep</h3>
+      <p>No automated checkout. Every sale requires you to be online.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🔁</div>
+      <h3>Repeating the same tasks</h3>
+      <p>Checking emails, updating notes, researching — daily, manually.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🛠️</div>
+      <h3>Paying for 10 different tools</h3>
+      <p>Notion, scheduling, email, analytics — all separate, all expensive.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">😩</div>
+      <h3>No system, just chaos</h3>
+      <p>Knowledge scattered across apps. Nothing connected. Nothing automated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR (เหมาะกับใคร) -->
+<section>
+  <div class="section-label">เหมาะกับใคร · Who It's For</div>
+  <h2>This blueprint is built for people like you.</h2>
+  <ul class="who-list">
+    <li>
+      <div class="check">✓</div>
+      <div>
+        <strong>Solo entrepreneurs & indie hackers</strong>
+        <span>You're building alone and need automation to scale without hiring. This is your team-of-one operating system.</span>
+      </div>
+    </li>
+    <li>
+      <div class="check">✓</div>
+      <div>
+        <strong>Freelancers who want passive income</strong>
+        <span>Build a product once, sell it forever — fully automated checkout, delivery, and support.</span>
+      </div>
+    </li>
+    <li>
+      <div class="check">✓</div>
+      <div>
+        <strong>ผู้ที่ต้องการสร้าง Passive Income (คนไทย)</strong>
+        <span>คู่มือมีทั้งภาษาไทยและอังกฤษ เหมาะสำหรับคนที่อยากเริ่มต้นธุรกิจ AI โดยไม่ต้องเขียนโค้ดเก่ง</span>
+      </div>
+    </li>
+    <li>
+      <div class="check">✓</div>
+      <div>
+        <strong>Tech-curious beginners</strong>
+        <span>No deep coding required. Every step is explained simply, with real commands you can copy-paste.</span>
+      </div>
+    </li>
+    <li>
+      <div class="check">✓</div>
+      <div>
+        <strong>Developers who want to ship faster</strong>
+        <span>Give your AI bot its own GitHub account, let it push code, and auto-deploy via Vercel — while you focus on bigger ideas.</span>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- WHAT'S INSIDE -->
+<section>
+  <div class="section-label">What's Inside</div>
+  <h2>11 chapters. Everything you need.<br>Nothing you don't.</h2>
+  <table class="contents-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Chapter</th>
+        <th>What You'll Build</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="chapter-num">01</td>
+        <td><strong>What is OpenClaw?</strong></td>
+        <td style="color:#9ca3af">Understand how it works differently from ChatGPT — it <em>acts</em>, not just responds.</td>
+      </tr>
+      <tr>
+        <td class="chapter-num">02</td>
+        <td><strong>Day 0 Setup</strong></td>
+        <td style="color:#9ca3af">Install, configure identity files (SOUL.md, USER.md), start your gateway in 30 min. <span class="exclusive-tag">EXCLUSIVE</span></td>
+      </tr>
+      <tr>
+        <td class="chapter-num">03</td>
+        <td><strong>Telegram Command Center</strong></td>
+        <td style="color:#9ca3af">Build a multi-topic group workspace: Business / Dev / Research — isolated contexts per channel.</td>
+      </tr>
+      <tr>
+        <td class="chapter-num">04</td>
+        <td><strong>Notion Integration</strong></td>
+        <td style="color:#9ca3af">Connect your second brain. Bot reads and writes Notion databases automatically.</td>
+      </tr>
+      <tr>
+        <td class="chapter-num">05</td>
+        <td><strong>Memory System</strong></td>
+        <td style="color:#9ca3af">Daily notes + Long-term MEMORY.md + PARA ~/life/ knowledge graph. Bot gets smarter over time. <span class="exclusive-tag">EXCLUSIVE</span></td>
+      </tr>
+      <tr>
+        <td class="chapter-num">06</td>
+        <td><strong>Behavior Rules</strong></td>
+        <td style="color:#9ca3af">AGENTS.md, tasks/todo.md, lessons/ — make your bot reliable, self-improving, and autonomous.</td>
+      </tr>
+      <tr>
+        <td class="chapter-num">07</td>
+        <td><strong>Cron Jobs & Monitoring</strong></td>
+        <td style="color:#9ca3af">Morning news scout, nightly memory updates, weekly reviews — running on schedule, forever. <span class="exclusive-tag">EXCLUSIVE</span></td>
+      </tr>
+      <tr>
+        <td class="chapter-num">08</td>
+        <td><strong>GitHub + Vercel</strong></td>
+        <td style="color:#9ca3af">Bot gets its own accounts. Pushes code, deploys sites, generates live URLs — no manual work.</td>
+      </tr>
+      <tr>
+        <td class="chapter-num">09</td>
+        <td><strong>Stripe Checkout</strong></td>
+        <td style="color:#9ca3af">Create a product, take payments, auto-deliver. The full money pipeline. <span class="exclusive-tag">EXCLUSIVE</span></td>
+      </tr>
+      <tr>
+        <td class="chapter-num">10</td>
+        <td><strong>VPS Hosting</strong></td>
+        <td style="color:#9ca3af">Run OpenClaw 24/7 on a $5/month server. Laptop closed, bot still running. <span class="exclusive-tag">EXCLUSIVE</span></td>
+      </tr>
+      <tr>
+        <td class="chapter-num">11</td>
+        <td><strong>Your First Product</strong></td>
+        <td style="color:#9ca3af">Step-by-step launch checklist: build → price → deploy → test → go live.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- HOW IT HELPS SOLO ENTREPRENEURS -->
+<section>
+  <div class="section-label">How It Helps</div>
+  <h2>From zero to an AI-powered<br>solo business in 24 hours.</h2>
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <div class="b-icon">🤖</div>
+      <h3>Your AI handles operations</h3>
+      <p>Emails, research, deployments, memory — delegated to your bot, not your time.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-icon">💳</div>
+      <h3>Earn while you sleep</h3>
+      <p>Stripe checkout + auto-delivery means sales happen with zero manual work after setup.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-icon">🧠</div>
+      <h3>Bot that knows your context</h3>
+      <p>Memory system means your bot remembers decisions, preferences, and goals — session after session.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-icon">🚀</div>
+      <h3>Ship products fast</h3>
+      <p>GitHub + Vercel pipeline lets your bot deploy live sites in under 60 seconds.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-icon">🌏</div>
+      <h3>Thai + English included</h3>
+      <p>Full guide in both languages. Share with your team, translate your knowledge globally.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="b-icon">📋</div>
+      <h3>Built from real experience</h3>
+      <p>Not theory. Every setup in this guide was built and tested in a live environment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<div class="cta-section">
+  <div class="section-label" style="text-align:center">Get Started Today</div>
+  <h2>Stop doing everything manually.<br>Build your AI operator.</h2>
+  <p>The OpenClaw Blueprint — English + Thai · 11 Chapters · Instant Download</p>
+  <a href="https://buy.stripe.com/test_00w7sE5o07r23FPbCC4gg00" class="cta-btn">
+    Get the Blueprint — $39
+  </a>
+  <p style="margin-top:16px; color:#4b5563; font-size:0.82rem;">
+    Secure checkout via Stripe · One-time payment · No subscription
+  </p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2026 dossdyai · by Doss Thapanapong ·
+  <a href="mailto:dos.thapanapong@gmail.com" style="color:#6b7280">Contact</a>
+</footer>
+
+</body>
+</html>
